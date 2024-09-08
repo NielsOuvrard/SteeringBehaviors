@@ -32,4 +32,4 @@ When some of the thieves catch the cop, the game will end.
 
 ## Screenshots
 
-![Screenshot1](./Screenshots/screenshot1.png)
+![Screenshot1](./Screenshots/Screenshot1.png)
