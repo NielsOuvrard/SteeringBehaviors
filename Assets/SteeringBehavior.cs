@@ -45,6 +45,9 @@ public class SteeringBehaviour
 
     public void Pursue()
     {
+        if (!target) {
+            return;
+        }
         Vector3 targetDir = target.transform.position - this.transform.position;
         float lookAhead = targetDir.magnitude / (agent.speed + getSpeedTarget());
         Vector3 pursueLocation = target.transform.position + target.transform.forward * lookAhead * 3;
@@ -58,6 +61,9 @@ public class SteeringBehaviour
 
     public void Evade()
     {
+        if (!target) {
+            return;
+        }
         Vector3 targetDir = target.transform.position - this.transform.position;
         float lookAhead = targetDir.magnitude / (agent.speed + getSpeedTarget());
         Vector3 pursueLocation = target.transform.position + target.transform.forward * lookAhead * 3;
@@ -88,6 +94,9 @@ public class SteeringBehaviour
 
     public void Hide()
     {
+        if (!target) {
+            return;
+        }
         float closestDistance = Mathf.Infinity;
         Vector3 chosenSpot = Vector3.zero;
         GameObject[] hidingPlaces = getObjectsWithTag("hide");

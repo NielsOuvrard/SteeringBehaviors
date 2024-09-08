@@ -21,8 +21,13 @@ public class Drive : MonoBehaviour
             // 1 because destroy() is called before the robber is destroyed
             if (getObjectsWithTag("Robber").Length == 1 && SceneManager.GetActiveScene().name == "Steering") {
                 SceneManager.LoadScene("Scene2");
+                Destroy(collision.gameObject);
+            } else if (SceneManager.GetActiveScene().name == "Scene2") {
+                // destroy the player
+                Debug.Log("Game Over");
+                Destroy(this.gameObject);
+                return;
             }
-            Destroy(collision.gameObject);
         }
     }
 

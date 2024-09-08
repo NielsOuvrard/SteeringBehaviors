@@ -33,15 +33,6 @@ public class RobberSteeringBehavior : MonoBehaviour
         return false;
     }
 
-    // private void OnTriggerEnter (Collider collision)
-    // {
-    //     if (collision.tag == "Player") {
-    //         Destroy(collision.gameObject);
-    //         Destroy(this.gameObject);
-    //         Debug.Log("Hit: " + collision.transform.name);
-    //     }
-    // }
-
     // They will have the default "Evade" behavior towards police officers and the player
     // until a pedestrian enters their range, when that happens they will switch to "Seek" to catch
     // the pedestrian
@@ -53,6 +44,9 @@ public class RobberSteeringBehavior : MonoBehaviour
                 steeringBehaviour.Wander();
                 break;
             case Behavior.Flee:
+                if (!target) {
+                    return;
+                }
                 steeringBehaviour.Flee(target.transform.position);
                 break;
             case Behavior.Evade:
@@ -62,6 +56,9 @@ public class RobberSteeringBehavior : MonoBehaviour
                 steeringBehaviour.Hide();
                 break;
             case Behavior.Seek:
+                if (!target) {
+                    return;
+                }
                 steeringBehaviour.Seek(target.transform.position);
                 break;
             case Behavior.Pursue:
