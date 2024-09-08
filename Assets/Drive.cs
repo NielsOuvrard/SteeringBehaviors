@@ -1,12 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Drive : MonoBehaviour
 {
     public float speed = 10.0f;
     public float rotationSpeed = 100.0f;
     public float currentSpeed = 0;
+
+    GameObject[] getObjectsWithTag(string tag)
+    {
+        return GameObject.FindGameObjectsWithTag(tag);
+    }
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == "Robber") 
+        {
+            // 1 because destroy() is called before the robber is destroyed
+            if (getObjectsWithTag("Robber").Length == 1 && SceneManager.GetActiveScene().name == "Steering") {
+                SceneManager.LoadScene("Scene2");
+            }
+            Destroy(collision.gameObject);
+        }
+    }
+
 
     void Update()
     {

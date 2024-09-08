@@ -15,6 +15,17 @@ public class SteeringBehaviour
     public float wanderJitter = 10;
     Vector3 wanderTarget = Vector3.zero;
 
+    float getSpeedTarget()
+    {
+        if (target.GetComponent<NavMeshAgent>()) {
+            return target.GetComponent<NavMeshAgent>().speed;
+        } else if (target.GetComponent<Drive>()) {
+            return target.GetComponent<Drive>().speed;
+        } else {
+            return 0;
+        }
+    }
+
     public void Init(NavMeshAgent _agent, GameObject _target, Transform _transform)
     {
         agent = _agent;
@@ -35,10 +46,10 @@ public class SteeringBehaviour
     public void Pursue()
     {
         Vector3 targetDir = target.transform.position - this.transform.position;
-        float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<NavMeshAgent>().speed);
+        float lookAhead = targetDir.magnitude / (agent.speed + getSpeedTarget());
         Vector3 pursueLocation = target.transform.position + target.transform.forward * lookAhead * 3;
 
-        if (target.GetComponent<NavMeshAgent>().speed <= 0.01f) {
+        if (getSpeedTarget() <= 0.01f) {
             Seek(target.transform.position);
         } else {
             Seek(pursueLocation);
@@ -48,7 +59,7 @@ public class SteeringBehaviour
     public void Evade()
     {
         Vector3 targetDir = target.transform.position - this.transform.position;
-        float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<NavMeshAgent>().speed);
+        float lookAhead = targetDir.magnitude / (agent.speed + getSpeedTarget());
         Vector3 pursueLocation = target.transform.position + target.transform.forward * lookAhead * 3;
 
         Flee(pursueLocation);
@@ -70,16 +81,16 @@ public class SteeringBehaviour
         Seek(targetWorld);
     }
     
-    GameObject[] getHidingPlaces()
+    GameObject[] getObjectsWithTag(string tag)
     {
-        return GameObject.FindGameObjectsWithTag("hide");
+        return GameObject.FindGameObjectsWithTag(tag);
     }
 
     public void Hide()
     {
         float closestDistance = Mathf.Infinity;
         Vector3 chosenSpot = Vector3.zero;
-        GameObject[] hidingPlaces = getHidingPlaces();
+        GameObject[] hidingPlaces = getObjectsWithTag("hide");
 
         foreach(GameObject hidingPlace in hidingPlaces) {
             Vector3 hideDirection = hidingPlace.transform.position - target.transform.position;
