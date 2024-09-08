@@ -15,6 +15,7 @@ The steering behaviors are the algorithms that control the movement of the agent
 - Wander
 - Pursue
 - Evade
+- Hide
 
 ## Objective of the project
 
